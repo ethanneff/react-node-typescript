@@ -18,9 +18,12 @@ A mono javascript repo for both client and server.
 
 ## How
 
-####
+
+#### Create
 
 ```sh
+git clone git@github.com:ethanneff/node-react-typescript.git
+cd node-react-typescript
 yarn
 ```
 
