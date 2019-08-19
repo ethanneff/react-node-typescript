@@ -1,3 +1,4 @@
+// libraries
 import express from "express"; // server
 import compression from "compression"; // compresses requests
 import bodyParser from "body-parser"; // read json
@@ -5,8 +6,12 @@ import helmet from "body-parser"; // security headers
 import lusca from "lusca"; // crsf tokens
 import cors from "cors"; // cors
 
+// controllers
+import * as homeController from "./controllers/Home";
+import * as postsController from "./controllers/Posts";
+
 // server
-const app = express();
+export const app = express();
 const port = process.env.PORT || 5000;
 
 // configuration
@@ -18,21 +23,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection(true));
 
-app.get("/", (req, res) => {
-  res.send("The sedulous hyena ate the antelope!");
-});
+// routes
+app.get("/", homeController.getHome);
+app.get("/posts", postsController.getPosts);
+app.post("/posts", postsController.createPost);
+app.put("/posts", postsController.updatePost);
+app.delete("/posts", postsController.deletePost);
 
-interface Post {
-  title: string;
-}
-let posts: Post[] = [];
-app.get("/posts", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.json(posts);
-});
-app.post("/posts", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  posts.push(req.body);
-  res.sendStatus(200);
-});
 app.listen(port);

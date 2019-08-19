@@ -3,11 +3,7 @@ import logo from "./logo.svg";
 import "./index.css";
 import axios from "axios";
 import uuid from "uuid";
-
-interface Post {
-  id: string;
-  title: string;
-}
+import { Post } from "../../../interfaces/posts";
 
 const host = "http://localhost:5000/";
 export const App = memo(function App() {
@@ -27,6 +23,7 @@ export const App = memo(function App() {
       id: uuid.v4(),
       title: addPost
     };
+    if (addPost.trim().length === 0) return;
     await axios({
       url: `${host}posts`,
       method: "post",
@@ -43,14 +40,18 @@ export const App = memo(function App() {
 
   // update
   const handleUpdatePost = (id: string) => async () => {
-    await axios({ url: `${host}/posts`, method: "put", data: { id } });
-    setAddPost("");
+    const data = {
+      id,
+      title: String(Date.now())
+    };
+    await axios({ url: `${host}posts`, method: "put", data });
+    setPosts(posts => posts.map(post => (post.id !== id ? post : data)));
   };
 
   // delete
   const handleDeletePost = (id: string) => async () => {
-    await axios({ url: `${host}/posts`, method: "delete", data: { id } });
-    setAddPost("");
+    await axios({ url: `${host}posts`, method: "delete", data: { id } });
+    setPosts(posts => posts.filter(post => post.id !== id));
   };
 
   // select
@@ -79,6 +80,7 @@ export const App = memo(function App() {
         {posts.map((post: Post) => {
           return (
             <div
+              key={post.id}
               onClick={handleSelectPost(post.id)}
               style={{
                 backgroundColor: post.id === selectPost ? "lightgreen" : "#333"
