@@ -2,7 +2,7 @@
 import express from "express"; // server
 import compression from "compression"; // compresses requests
 import bodyParser from "body-parser"; // read json
-import helmet from "body-parser"; // security headers
+import helmet from "helmet"; // security headers
 import lusca from "lusca"; // crsf tokens
 import cors from "cors"; // cors
 
@@ -18,8 +18,9 @@ const port = process.env.PORT || 5000;
 app.use(compression());
 app.use(helmet());
 app.use(cors());
+app.use(compression());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection(true));
 
