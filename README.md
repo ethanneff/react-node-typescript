@@ -14,10 +14,9 @@ A mono javascript repo for both client and server.
 - [x] complete crud example
 - [x] client build
 - [ ] server build
-- [ ] hosting
+- [ ] hosting (now.sh)
 
 ## How
-
 
 #### Create
 
