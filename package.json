@@ -26,7 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test -u --forceExit --coverage --verbose --detectOpenHandles",
     "watch": "npm run test -- --watchAll",
-    "lint": "tsc --noEmit && eslint . --quiet --fix"
+    "lint": "tsc && eslint 'src/**/*.[jt]s?(x)' --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
